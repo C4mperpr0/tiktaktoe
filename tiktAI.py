@@ -7,9 +7,8 @@ import torch.optim as optim
 if torch.cuda.is_available():
     print("Cuda is available!")
 else:
-    while True:
-        print("Cude is not available!")
-        input()
+    print("Cuda is not available!")
+    input("press ENTER to continue anyway.")
 
 
 class TiktaktoeAI(nn.Module):
@@ -34,7 +33,7 @@ class TiktaktoeAI(nn.Module):
 tiktaktoeAI = TiktaktoeAI()
 print(tiktaktoeAI)
 
-for i in range(100):
+for i in range(1000):
     data_input = [0, 1, 0, 0, 0, 1, 0, 1, 0, 1]
     out = tiktaktoeAI(torch.Tensor([data_input for _ in range(10)]))
 
@@ -44,10 +43,11 @@ for i in range(100):
     criterion = nn.MSELoss()
     loss = criterion(out, target)
     print(loss)
+    print(out[0])
 
     tiktaktoeAI.zero_grad()
     loss.backward()
-    optimizer = optim.SGD(tiktaktoeAI.parameters(), lr=0.11)
+    optimizer = optim.SGD(tiktaktoeAI.parameters(), lr=(1000-i)/10000)
     optimizer.step()
 
 
